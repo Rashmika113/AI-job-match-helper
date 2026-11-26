@@ -1,0 +1,23 @@
+Nimal Perera
+Colombo, Sri Lanka · nimal.perera@example.com · github.com/nimal-example
+
+SUMMARY
+Final-year Computer Science undergraduate who enjoys building AI tools with Python.
+
+SKILLS
+Python, SQL, Pandas, NumPy, scikit-learn, Streamlit, Git, Linux, English, Sinhala
+
+PROJECTS
+Chat with your PDFs: a Streamlit app that answers questions about uploaded PDFs in English and Sinhala.
+Used sentence-transformers embeddings, ChromaDB and the Groq API. Wrote pytest tests and a GitHub Actions pipeline.
+
+House price predictor: cleaned 20,000 rows of Sri Lankan property data with Pandas and trained
+a scikit-learn regression model. Presented results to a class of 60 students.
+
+EXPERIENCE
+Data intern, ABC Solutions (Jun 2025 - Dec 2025)
+Built weekly sales reports in Excel and wrote SQL queries for the analytics team.
+Worked with a team of four on cleaning customer data.
+
+EDUCATION
+BSc (Hons) Computer Science, University of Colombo (2022 - 2026)

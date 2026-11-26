@@ -1,0 +1,16 @@
+Junior AI Engineer - XYZ Tech (Colombo, hybrid)
+
+About the role:
+You will help build LLM-powered features for our customer support platform.
+
+Requirements:
+- Strong Python skills and experience with REST APIs (FastAPI or Flask)
+- Hands-on experience with LLMs, prompt engineering and RAG
+- Familiar with vector databases and embeddings
+- Comfortable with Git and writing unit tests
+- Good communication skills and a team player
+
+Nice to have:
+- Docker and AWS
+- Experience with LangChain
+- Basic knowledge of React
