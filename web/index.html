@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Job-Match Helper</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+  <header class="hero">
+    <div class="hero-badge">✨ Free · Explainable · English + සිංහල</div>
+    <h1>AI Job-Match <span class="grad-text">Helper</span></h1>
+    <p>Compare your CV with a job post. See a score you can understand, the skills you have and miss,
+      and get honest tips to make your CV stronger.</p>
+  </header>
+
+  <main>
+    <!-- Settings -->
+    <details class="card settings" id="settings">
+      <summary>⚙️ AI settings <span class="muted" id="settings-summary"></span></summary>
+      <div class="settings-grid">
+        <label>Provider
+          <select id="provider"></select>
+        </label>
+        <label>Model
+          <input id="model" type="text" spellcheck="false">
+        </label>
+        <label id="key-wrap">API key <span class="muted">(empty = use .env)</span>
+          <input id="api-key" type="password" autocomplete="off" placeholder="••••••••">
+        </label>
+        <div>
+          <span class="label">Tips language</span>
+          <div class="pills" id="languages"></div>
+        </div>
+      </div>
+      <p class="muted small">The score is computed on your computer for free. Only <b>Get CV tips</b>
+        sends your CV and the job post to the AI provider you pick.</p>
+    </details>
+
+    <!-- Inputs -->
+    <section class="inputs">
+      <div class="card input-card cv">
+        <div class="card-head">
+          <span class="step">1</span><h2>Your CV</h2>
+          <button class="ghost" data-sample="cv">Use sample CV</button>
+        </div>
+        <label class="drop" id="drop">
+          <input type="file" id="file" accept=".pdf,.txt,.md" hidden>
+          <span class="drop-icon">📄</span>
+          <span><b>Drop your CV here</b> or click to upload <span class="muted">(PDF or .txt)</span></span>
+        </label>
+        <textarea id="cv" placeholder="...or paste your CV text here"></textarea>
+      </div>
+
+      <div class="card input-card job">
+        <div class="card-head">
+          <span class="step">2</span><h2>The job post</h2>
+          <button class="ghost" data-sample="job">English sample</button>
+          <button class="ghost" data-sample="job_si">සිංහල sample</button>
+        </div>
+        <textarea id="job" class="tall" placeholder="Paste the job description here"></textarea>
+      </div>
+    </section>
+
+    <button class="cta" id="match-btn"><span>🔍 Check match</span></button>
+    <div class="error" id="error" hidden></div>
+
+    <!-- Results -->
+    <section id="results" hidden>
+      <div class="card score-card">
+        <div class="ring" id="ring"><div class="ring-inner"><b id="score">0</b><small>/ 100</small></div></div>
+        <div class="score-info">
+          <span class="pill" id="label"></span>
+          <div class="bar-row">
+            <span>🧩 Skill overlap</span><div class="bar"><i id="skill-bar"></i></div><b id="skill-pct"></b>
+          </div>
+          <div class="bar-row">
+            <span>🧠 Semantic similarity</span><div class="bar sem"><i id="sem-bar"></i></div><b id="sem-pct"></b>
+          </div>
+          <p class="muted small" id="formula"></p>
+        </div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="card skill-box green"><h3>✅ Required skills you have</h3><div class="chips" id="matched-req"></div></div>
+        <div class="card skill-box red"><h3>❌ Required skills missing</h3><div class="chips" id="missing-req"></div></div>
+        <div class="card skill-box blue"><h3>➕ Nice-to-haves you have</h3><div class="chips" id="matched-opt"></div></div>
+        <div class="card skill-box orange"><h3>◻️ Nice-to-haves missing</h3><div class="chips" id="missing-opt"></div></div>
+      </div>
+
+      <details class="card" id="extra-wrap">
+        <summary>💼 Other skills in your CV <span class="muted">(not asked for in this job)</span></summary>
+        <div class="chips" id="extra"></div>
+      </details>
+
+      <div class="card">
+        <h3>📋 How well each job requirement is covered <span class="muted">(weakest first)</span></h3>
+        <ul class="coverage" id="coverage"></ul>
+      </div>
+
+      <div class="card tips-card">
+        <div class="card-head">
+          <span class="step">3</span><h2>CV tips</h2>
+          <button class="cta small" id="tips-btn"><span>✨ Get CV tips from AI</span></button>
+        </div>
+        <div class="tips" id="tips"><p class="muted">Click the button to get rewritten bullets, ways to close each gap and keywords to add.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Built with Python, FastAPI and sentence-transformers · <a href="https://github.com/Rashmika113/AI-job-match-helper">GitHub</a></footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

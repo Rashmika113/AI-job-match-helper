@@ -23,8 +23,9 @@ Works with **English and Sinhala (සිංහල)** job posts and CVs, and can 
 - **Understands job post structure**: skills under "Nice to have:" or lines saying "is a plus" count half, and "FastAPI or Flask" counts as one skill you can satisfy either way
 - **Requirement coverage**: each job requirement is compared with every part of your CV using a local multilingual embedding model, so you see exactly which requirement is weakest and the closest line in your CV
 - **The score is free and private**: it is computed on your laptop. Only the optional "CV tips" step calls an LLM
-- **Swap the LLM from the sidebar**: Groq (free tier, default), Ollama (local), OpenAI or Anthropic Claude
+- **Swap the LLM under AI settings**: Groq (free tier, default), Ollama (local), OpenAI or Anthropic Claude
 - **Honest tips**: the prompt forbids inventing experience and asks for rewritten bullets using only facts from your CV
+- **Colorful web UI** (plain HTML, CSS and JavaScript, no build step) on top of a **FastAPI** backend, with drag-and-drop CV upload, an animated score ring and AI tips that stream in live
 - Tested with **pytest** (offline, under a second) and linted with **ruff** in GitHub Actions
 
 ## How the score works
@@ -53,7 +54,9 @@ flowchart LR
 ## Project structure
 
 ```
-├── app.py               # Streamlit UI
+├── server.py            # FastAPI backend: JSON API + serves the web page
+├── run.py               # python run.py -> starts the server and opens your browser
+├── web/                 # colorful frontend: index.html, style.css, app.js (no npm needed)
 ├── jobmatch/
 │   ├── loader.py        # PDF / text -> clean text
 │   ├── skills.py        # skill dictionary + extraction (required / optional / A-or-B)
@@ -81,10 +84,12 @@ copy .env.example .env
 Open `.env` in Notepad and paste your free Groq key after `GROQ_API_KEY=` (get one at [console.groq.com/keys](https://console.groq.com/keys)). Then:
 
 ```bat
-streamlit run app.py
+python run.py
 ```
 
-Open http://localhost:8501 and click **Load sample** in the sidebar to try it.
+Your browser opens http://127.0.0.1:8000 automatically. Click **Use sample CV** and **English sample** (or **සිංහල sample**), then **Check match**. Press `Ctrl+C` in cmd to stop the server.
+
+For development, `uvicorn server:app --reload` restarts the server whenever you save a file. The API docs are at http://127.0.0.1:8000/docs.
 
 The first "Check match" downloads the embedding model (about 470 MB), so it takes a few minutes once. After that it's fast.
 
@@ -92,9 +97,9 @@ The first "Check match" downloads the embedding model (about 470 MB), so it take
 
 ### Other LLMs
 
-- **Ollama (local, free)**: install from [ollama.com](https://ollama.com/download), run `ollama pull llama3.2`, pick Ollama in the sidebar. Small local models are weak at Sinhala.
-- **OpenAI / Claude (paid)**: set `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` in `.env`, or paste the key in the sidebar.
-- Groq retires models from time to time. If you get a "model not found" error, pick a current model in the [Groq playground](https://console.groq.com/playground) and set `GROQ_MODEL` in `.env` (or type it in the sidebar).
+- **Ollama (local, free)**: install from [ollama.com](https://ollama.com/download), run `ollama pull llama3.2`, pick Ollama under **AI settings**. Small local models are weak at Sinhala.
+- **OpenAI / Claude (paid)**: set `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` in `.env`, or paste the key under **AI settings** on the page.
+- Groq retires models from time to time. If you get a "model not found" error, pick a current model in the [Groq playground](https://console.groq.com/playground) and set `GROQ_MODEL` in `.env` (or type it under **AI settings**).
 
 ## Configuration
 
@@ -124,7 +129,7 @@ The score runs fully on your computer. When you click **Get CV tips**, your CV a
 - Skill extraction is dictionary-based: precise and explainable, but it only knows skills in the list. An LLM-based extractor could be added as a fallback.
 - The semantic part is calibrated for E5 models; other embedding models may need a different range in `calibration_for()`.
 - Scanned PDF CVs have no text layer. OCR (e.g. Tesseract with the `sin` model) would fix that.
-- Ideas: compare one CV against several jobs and rank them, export the tips as a PDF, deploy to Streamlit Community Cloud.
+- Ideas: compare one CV against several jobs and rank them, export the tips as a PDF, deploy to Render or Hugging Face Spaces.
 
 ## License
 

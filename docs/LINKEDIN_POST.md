@@ -26,7 +26,7 @@ What I learned:
 • Small details matter in skill matching: "R", "Go" and "REST" are also normal English words!
 • [Add one thing you noticed when testing it on your own CV.]
 
-The score runs free on your laptop; tips use Groq's free tier by default (or Ollama, OpenAI, Claude). Built with Python, Streamlit, sentence-transformers and pytest, with CI on GitHub Actions.
+The score runs free on your laptop; tips use Groq's free tier by default (or Ollama, OpenAI, Claude). Built with Python, FastAPI, a hand-made HTML/CSS/JS frontend, sentence-transformers and pytest, with CI on GitHub Actions.
 
 This is project 2 in my AI portfolio. Project 1 was a Sinhala + English "Chat with your PDFs" RAG app.
 
