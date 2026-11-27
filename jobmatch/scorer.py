@@ -53,10 +53,33 @@ class MatchResult:
         return sorted(self.coverage, key=lambda c: c.score)[:3]
 
 
+_BULLET = re.compile(r"^\s*(?:[-*•●▪]|\d+[.)])\s*")
+
+
+def _drop_title(job_text: str) -> list[str]:
+    """The job post's lines, without a leading job title such as "AI Engineer - XYZ Tech".
+
+    The first line is treated as a title only if the post is clearly structured (has
+    bullets or "Heading:" lines further down), and that line is not a bullet or a
+    sentence and is followed by a blank line or a heading.
+    """
+    lines = job_text.strip().splitlines()
+    if len(lines) < 2:
+        return lines
+    first, second, rest = lines[0].strip(), lines[1].strip(), lines[1:]
+    structured = any(_BULLET.match(line) or line.rstrip().endswith(":") for line in rest)
+    is_title = (
+        not _BULLET.match(first)
+        and not first.endswith((".", "!", "?", ":"))
+        and (not second or second.endswith(":"))
+    )
+    return rest if structured and is_title else lines
+
+
 def split_requirements(job_text: str, min_words: int = 4) -> list[str]:
-    """Job post lines that read like requirements (bullets, sentences), not headers."""
+    """Job post lines that read like requirements (bullets, sentences), not titles or headers."""
     lines = []
-    for raw in job_text.splitlines():
+    for raw in _drop_title(job_text):
         line = re.sub(r"^\s*[-*•●▪\d.)]+\s*", "", raw).strip()
         if len(line.split()) >= min_words and not line.endswith(":"):
             lines.append(line)
