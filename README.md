@@ -10,7 +10,6 @@ Paste or upload your CV and a job post, and get:
 Works with **English and Sinhala (සිංහල)** job posts and CVs, and can write the tips in either language.
 
 ![Demo](assets/demo.gif)
-<!-- TODO: record a short GIF (sample CV -> Check match -> Get CV tips), save it as assets/demo.gif -->
 
 ![CI](https://github.com/Rashmika113/AI-job-match-helper/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
